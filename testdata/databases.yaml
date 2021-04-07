@@ -1,0 +1,30 @@
+--- !model
+given:
+  region: "eu-west-2"
+
+--- !config
+
+- id: blackwells
+  master_password: "ssm:blackwells.master_password"
+
+- id: foyles
+  enabled: false
+  master_password: "ssm:foyles.master_password"
+
+- id: whsmith
+
+- id: daunt-books
+
+--- !updates
+
+databases:
+  "eu-west-2/blackwells":
+    status: "ENABLED"
+    master_password: "focused_mendel"
+    permissions: {}
+  "eu-west-2/foyles":
+    status: "DISABLED"
+  "eu-west-2/whsmith":
+    status: "ENABLED"
+    master_password: "quirky_ganguly"
+    permissions: {}

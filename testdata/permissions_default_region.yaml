@@ -1,0 +1,36 @@
+--- !model
+given:
+  time_ref: 2020-05-15T22:24:51.0+01:00
+
+default_region: "eu-west-2"
+databases:
+  "eu-west-2/blackwells":
+    status: ACCESSIBLE
+    main_schema: db_blackwells
+    master_password: "ssm:blackwells.master_password"
+  "eu-west-2/whsmith":
+    status: ENABLED
+    main_schema: db_whsmith
+    master_password: "ssm:whsmith.master_password"
+
+--- !config
+- login: leroy.trent@acme.com
+  default_grant_type: query
+  permissions:
+    - db: "*"
+    - db: "whsmith"
+      grant_type: crud
+
+--- !updates
+users:
+  "leroy.trent@acme.com":
+    db_username: "leroy.trent@acme.com"
+    permissions:
+      "eu-west-2/blackwells":
+        schemas:
+          - db_blackwells
+        grant_type: query
+      "eu-west-2/whsmith":
+        schemas:
+          - db_whsmith
+        grant_type: crud

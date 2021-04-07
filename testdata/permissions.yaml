@@ -1,0 +1,74 @@
+--- !model
+given:
+  time_ref: 2020-05-15T22:24:51.0+01:00
+
+databases:
+  "us-east-1/borders":
+    status: ACCESSIBLE
+    main_schema: db_borders
+    master_password: "ssm:borders.master_password"
+  "eu-west-2/blackwells":
+    status: ACCESSIBLE
+    main_schema: db_blackwells
+    master_password: "ssm:blackwells.master_password"
+  "eu-west-2/foyles":
+    status: DISABLED
+  "eu-west-2/blackwells-recover":
+    status: ABSENT
+  "eu-west-2/whsmith":
+    status: ENABLED
+    main_schema: db_whsmith
+    master_password: "ssm:whsmith.master_password"
+
+--- !config
+- login: leroy.trent@acme.com
+  default_grant_type: query
+  permissions:
+    - db: "*"
+    - db: "us-east-1/borders"
+      schemas:
+        - db_borders
+        - ebooks
+    - db: "eu-west-2/whsmith"
+      grant_type: crud
+      not_valid_after: 2020-05-26T10:22:00.0+01:00
+
+- login: bridget.huntington-whiteley@acme.com
+
+- login: valerie.tennant@acme.com
+  permissions:
+    - db: "eu-west-2/blackwells"
+      schemas: db_blackwells
+      grant_type: crud
+
+--- !updates
+control:
+  next_transition: 2020-05-26T09:22:00.0Z
+
+users:
+  "leroy.trent@acme.com":
+    db_username: "leroy.trent@acme.com"
+    permissions:
+      "us-east-1/borders":
+        schemas:
+          - db_borders
+          - ebooks
+        grant_type: query
+      "eu-west-2/blackwells":
+        schemas:
+          - db_blackwells
+        grant_type: query
+      "eu-west-2/whsmith":
+        schemas:
+          - db_whsmith
+        grant_type: crud
+  "bridget.huntington-whiteley@acme.com":
+    db_username: "bridget.huntington-whiteley@acme"
+    permissions: {}
+  "valerie.tennant@acme.com":
+    db_username: "valerie.tennant@acme.com"
+    permissions:
+      "eu-west-2/blackwells":
+        schemas:
+          - db_blackwells
+        grant_type: crud

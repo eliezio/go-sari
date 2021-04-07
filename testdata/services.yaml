@@ -1,0 +1,7 @@
+glue_connections:
+  - db: "eu-west-2/blackwells"
+    grant_type: crud
+
+  - db: "eu-west-2/whsmith"
+
+  - db: "eu-west-2/foyles"
